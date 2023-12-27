@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  GymPass-pg:
+    image: bitnami/postgresql
+    container_name: Database_GymPass
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRESQL_USERNAME=mariogomes
+      - POSTGRESQL_PASSWORD=1qaz2wsx
+      - POSTGRESQL_DATABASE=GymPass
+    volumes:
+      - pgdata:/data/postgres
+    network_mode: host
+  app:
+    build: .
+    container_name: api_GymPass
+    ports:
+      - 3333:3333
+    volumes:
+      - .:/usr/app
+    network_mode: host
+
+volumes:
+  pgdata:
+    driver: local
