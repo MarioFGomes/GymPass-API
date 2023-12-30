@@ -1,17 +1,20 @@
-import { expect,describe,it } from 'vitest';
+import { expect,describe,it, beforeEach } from 'vitest';
 import bcrypt from 'bcrypt';
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository';
 import { AuthenticateUseCase } from './authenticate';
 import { InvalidCredentialsError } from '../errors/invalid-credentials-error';
 
 
+let userRepository:InMemoryUsersRepository;
+let sut:AuthenticateUseCase;
 describe('Authenticate Use Case', () => {
 
+    beforeEach(() => {
+        userRepository=new InMemoryUsersRepository();
+        sut=new AuthenticateUseCase(userRepository);
+    });
 
     it('should be able to authenticate',async () => {
-
-        const userRepository=new InMemoryUsersRepository();
-        const sut=new AuthenticateUseCase(userRepository);
 
         const saltRounds = 6;
         const salt = bcrypt.genSaltSync(saltRounds);
@@ -33,10 +36,7 @@ describe('Authenticate Use Case', () => {
 
     it('should be able to authenticate with wrong email',async () => {
 
-        const userRepository=new InMemoryUsersRepository();
-        const sut=new AuthenticateUseCase(userRepository);
-
-        expect(()=>
+        await expect(()=>
             sut.execute({
                 email:'jhondoe@example.com',
                 password:'123456'
@@ -44,9 +44,6 @@ describe('Authenticate Use Case', () => {
     });
 
     it('should be able to authenticate with wrong password',async () => {
-
-        const userRepository=new InMemoryUsersRepository();
-        const sut=new AuthenticateUseCase(userRepository);
 
         const saltRounds = 6;
         const salt = bcrypt.genSaltSync(saltRounds);
@@ -58,7 +55,7 @@ describe('Authenticate Use Case', () => {
             password_hash
         });
 
-        expect(()=>
+        await expect(()=>
             sut.execute({
                 email:'jhondoe@example.com',
                 password:'123456789'
