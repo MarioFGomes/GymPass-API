@@ -2,6 +2,7 @@ import { expect,describe,it, beforeEach,afterEach,vi } from 'vitest';
 import { InMemoryCheckInsRepository } from '@/repositories/in-memory/in-memory-check-ins-repository';
 import { CheckinUseCase } from './check-in';
 import { InMemoryGymRepository } from '@/repositories/in-memory/in-memory-gym-repository';
+import { Decimal } from '@prisma/client/runtime/library';
 
 
 let CheckInsRepository:InMemoryCheckInsRepository;
@@ -25,8 +26,8 @@ describe('Check-in Use Case', () => {
             name: 'gym-initialized',
             description:'gym for especial people',
             phone:'932041319',
-            latitude:'-9.8834048',
-            longitude:'15.2513792'
+            latitude:new Decimal(-8.8834048),
+            longitude:new Decimal(13.2513792)
             
         });
         const  { CheckIn } =await sut.execute({
@@ -46,8 +47,8 @@ describe('Check-in Use Case', () => {
             name: 'gym-initialized',
             description:'gym for especial people',
             phone:'932041319',
-            latitude:'-9.8834048',
-            longitude:'15.2513792'
+            latitude:new Decimal(-8.8834048),
+            longitude:new Decimal(13.2513792)
             
         });
 
@@ -77,8 +78,8 @@ describe('Check-in Use Case', () => {
             name: 'gym-initialized',
             description:'gym for especial people',
             phone:'932041319',
-            latitude:'-9.8834048',
-            longitude:'15.2513792'
+            latitude:new Decimal(-8.8834048),
+            longitude:new Decimal(13.2513792)
             
         });
         
@@ -101,6 +102,31 @@ describe('Check-in Use Case', () => {
         });
 
         expect(CheckIn.id).toEqual(expect.any(String));
+    });
+
+
+    it('should not be able to check in on distant gym',async () => {
+        
+        gymRepository.items.push({
+            id:'gym-002',
+            name: 'gym-initialized',
+            description:'gym for especial people',
+            phone:'932041319',
+            latitude:new Decimal(-8.8834048),
+            longitude:new Decimal(13.2513792)
+            
+        });
+        
+        await expect(()=>
+
+            sut.execute({
+                gymId:'gym-002',
+                userId: 'user-001',
+                userLatitude: -9.0554108,
+                userLongitude:13.258574,
+            }),
+
+        ).rejects.toBeInstanceOf(Error);
     });
 
 });

@@ -1,6 +1,21 @@
 import { Redis } from 'ioredis';
+import {env} from '@/env';
+import { promisify } from 'util';
 
-export const redisClient=new Redis({
-    connectionName: 'GymPass',
-    password:'1qaz2wsx'
+const redisClient=new Redis({
+    connectionName: env.REDIS_CONNECTION_NAME,
+    password:env.REDIS_PASSWORD,
+    port:env.REDIS_PORT
 });
+
+function getRedis(value:string){
+    const syncRedisGet=promisify(redisClient.get).bind(redisClient);
+    return syncRedisGet(value);
+}
+
+function setRedis(key:string,value:string){
+    const syncRedisSet=promisify(redisClient.set).bind(redisClient);
+    return syncRedisSet(key,value);
+}
+
+export {redisClient,getRedis,setRedis};
