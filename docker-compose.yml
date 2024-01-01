@@ -14,6 +14,19 @@ services:
     volumes:
       - pgdata:/data/postgres
     network_mode: host
+
+  GymPass-redis:
+    image: bitnami/redis
+    container_name: GymPass-redis
+    restart: always
+    ports:
+      - 6379:6379
+    environment:
+      - ALLOW_EMPTY_PASSWORD=no
+      - REDIS_PASSWORD=1qaz2wsx
+    volumes:
+      - pgdata:/data/redis
+    network_mode: host
   app:
     build: .
     container_name: api_GymPass
