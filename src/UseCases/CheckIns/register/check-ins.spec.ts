@@ -2,7 +2,9 @@ import { expect,describe,it, beforeEach,afterEach,vi } from 'vitest';
 import { InMemoryCheckInsRepository } from '@/repositories/in-memory/in-memory-check-ins-repository';
 import { CheckinUseCase } from './check-in';
 import { InMemoryGymRepository } from '@/repositories/in-memory/in-memory-gym-repository';
-import { Decimal } from '@prisma/client/runtime/library';
+import { MaxDistanceError } from '../../errors/max-distance-error';
+import { MaxNumberOfCheckInsError } from '../../errors/max-number-of-check-ins-error';
+
 
 
 let CheckInsRepository:InMemoryCheckInsRepository;
@@ -21,13 +23,13 @@ describe('Check-in Use Case', () => {
     });
 
     it('should be able to check in',async () => {
-        gymRepository.items.push({
+        gymRepository.create({
             id:'gym-001',
             name: 'gym-initialized',
             description:'gym for especial people',
             phone:'932041319',
-            latitude:new Decimal(-8.8834048),
-            longitude:new Decimal(13.2513792)
+            latitude:-8.8834048,
+            longitude:13.2513792
             
         });
         const  { CheckIn } =await sut.execute({
@@ -42,13 +44,13 @@ describe('Check-in Use Case', () => {
 
     it('should not be able to check in twice in the same day',async () => {
 
-        gymRepository.items.push({
+        gymRepository.create({
             id:'gym-001',
             name: 'gym-initialized',
             description:'gym for especial people',
             phone:'932041319',
-            latitude:new Decimal(-8.8834048),
-            longitude:new Decimal(13.2513792)
+            latitude:-8.8834048,
+            longitude:13.2513792
             
         });
 
@@ -68,18 +70,18 @@ describe('Check-in Use Case', () => {
                 userLatitude: -8.8834048,
                 userLongitude:13.2513792,
             }),
-        ).rejects.toBeInstanceOf(Error);
+        ).rejects.toBeInstanceOf(MaxNumberOfCheckInsError);
     });
 
     it('should be able to check in twice but in different days',async () => {
         
-        gymRepository.items.push({
+        gymRepository.create({
             id:'gym-001',
             name: 'gym-initialized',
             description:'gym for especial people',
             phone:'932041319',
-            latitude:new Decimal(-8.8834048),
-            longitude:new Decimal(13.2513792)
+            latitude:-8.8834048,
+            longitude:13.2513792
             
         });
         
@@ -107,13 +109,13 @@ describe('Check-in Use Case', () => {
 
     it('should not be able to check in on distant gym',async () => {
         
-        gymRepository.items.push({
+        gymRepository.create({
             id:'gym-002',
             name: 'gym-initialized',
             description:'gym for especial people',
             phone:'932041319',
-            latitude:new Decimal(-8.8834048),
-            longitude:new Decimal(13.2513792)
+            latitude:-8.8834048,
+            longitude:13.2513792
             
         });
         
@@ -126,7 +128,7 @@ describe('Check-in Use Case', () => {
                 userLongitude:13.258574,
             }),
 
-        ).rejects.toBeInstanceOf(Error);
+        ).rejects.toBeInstanceOf(MaxDistanceError);
     });
 
 });

@@ -7,13 +7,13 @@ GymPass style app.
 - [x] Deve ser possível se cadastrar;
 - [x] Deve ser possível se autenticar;
 - [x] Deve ser possível obter o perfil de um usuário logado;
-- [] Deve ser possível obter o número de check-ins realizados pelo usuário logado;
-- [] Deve ser possível o usuário obter seu histórico de check-ins;
+- [x] Deve ser possível obter o número de check-ins realizados pelo usuário logado;
+- [x] Deve ser possível o usuário obter seu histórico de check-ins;
 - [] Deve ser possível o usuário buscar academias próximas;
 - [] Deve ser possível o usuário buscar academia pelo nome;
-- [] Deve ser possível o usuário realizar check-in em uma academia;
+- [x] Deve ser possível o usuário realizar check-in em uma academia;
 - [] Deve ser possível validar o check-in de um usuário;
-- [] Deve ser possível cadastrar uma academia
+- [x] Deve ser possível cadastrar uma academia
 
 ## RNs (Regras de negócio)
 
@@ -28,7 +28,7 @@ GymPass style app.
 
 - [x] A senha do usuario precisa estar criptografada;
 - [x] Os dados da aplicação precisam estar presistido em um banco de dados PostgreSQL
-- [] Todas Listas de dados precisam estar paginadas com 20 itens por página;
+- [x] Todas Listas de dados precisam estar paginadas com 20 itens por página;
 - [] O usuário deve ser identificado por um JWT (JSON Web Token);
-- [] Melhorar a performace da busca do perfil do usuário implementando o cache com redis
+- [x] Melhorar a performace da busca do perfil do usuário implementando o cache com redis
 - [] Implementar ferramentas de observabilidade para logs e monitoramento

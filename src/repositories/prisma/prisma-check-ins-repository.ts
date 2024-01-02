@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import dayjs from 'dayjs';
 
 export class PrismaCheckInsRepository implements CheckInRepository{
+    
 
     async findByUserIdOnDate(userId: string, date: Date) {
         const startOfTheDay=dayjs(date).startOf('date');
@@ -37,5 +38,26 @@ export class PrismaCheckInsRepository implements CheckInRepository{
         return CheckIn;
     }
 
-   
+    async findManyByUserId(userId: string,page:number) {
+        const CheckIns=await prisma.checkIn.findMany({
+            where:{
+                user_id: userId
+            }
+        });
+
+        const CheckInsFilter=CheckIns.filter(checkIn => checkIn.user_id === userId)
+            .slice((page-1)*20, page*20);
+
+        return CheckInsFilter;
+    }
+
+    async countByUserId(userId: string) {
+        const CheckIns=await prisma.checkIn.findMany({
+            where:{
+                user_id: userId
+            }
+        });
+        const CheckInsMetrics=CheckIns.filter(checkIn => checkIn.user_id === userId).length;
+        return CheckInsMetrics;
+    }
 }
