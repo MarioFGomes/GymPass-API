@@ -1,9 +1,8 @@
-import {Prisma} from '@prisma/client';
 import { CheckInRepository } from '../check-ins-repository';
 import { prisma } from '@/lib/prisma';
 import dayjs from 'dayjs';
 
-export class PrismaCheckInsRepository implements CheckInRepository{
+class PrismaCheckInsRepository implements CheckInRepository{
     
 
     async findByUserIdOnDate(userId: string, date: Date) {

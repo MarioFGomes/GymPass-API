@@ -18,4 +18,4 @@ function setRedis(key:string,value:string){
     return syncRedisSet(key,value);
 }
 
-export {redisClient,getRedis,setRedis};
+export {getRedis,setRedis};

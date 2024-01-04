@@ -2,7 +2,6 @@ import { UsersRepository } from '@/repositories/users-repository';
 import { InvalidCredentialsError } from '../errors/invalid-credentials-error';
 import bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
-import { setRedis } from '@/config/RedisConfig';
 
 interface AuthenticateUseCaseRequest{
     email: string;
