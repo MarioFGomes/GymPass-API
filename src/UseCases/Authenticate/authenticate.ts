@@ -26,7 +26,7 @@ export class AuthenticateUseCase{
 
         if(!doesPasswordMatches) throw new InvalidCredentialsError();
 
-        await setRedis(`user-${user.id}`,JSON.stringify(user));
+        
 
         return {user};
     }
