@@ -1,5 +1,5 @@
 import {prisma} from '@/lib/prisma';
-import {Prisma} from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { UsersRepository } from '../users-repository';
 import { getRedis, setRedis } from '@/config/RedisConfig';
 

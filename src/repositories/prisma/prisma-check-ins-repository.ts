@@ -1,7 +1,9 @@
 import { CheckInRepository } from '../check-ins-repository';
 import { prisma } from '@/lib/prisma';
+import {Prisma} from '@prisma/client';
 import dayjs from 'dayjs';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class PrismaCheckInsRepository implements CheckInRepository{
     
 
