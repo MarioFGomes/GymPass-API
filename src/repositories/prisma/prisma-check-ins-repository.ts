@@ -1,3 +1,4 @@
+import { getRedis, setRedis } from '@/config/RedisConfig';
 import { CheckInRepository } from '../check-ins-repository';
 import { prisma } from '@/lib/prisma';
 import {Prisma,CheckIn} from '@prisma/client';
@@ -30,6 +31,11 @@ export class PrismaCheckInsRepository implements CheckInRepository{
     }
 
     async findManyByUserId(userId: string,page:number) {
+
+        const CheckInsRedis=await getRedis(`UserCheckIn-${userId}/page-${page}`);
+
+        if(CheckInsRedis) return JSON.parse(CheckInsRedis);
+
         const CheckIns=await prisma.checkIn.findMany({
             where:{
                 user_id: userId
@@ -37,6 +43,8 @@ export class PrismaCheckInsRepository implements CheckInRepository{
             take:20,
             skip:(page-1)*20, 
         });
+
+        if(CheckIns) await setRedis(`UserCheckIn-${userId}/page-${page}`,JSON.stringify(CheckIns));
 
         return CheckIns;
     }
@@ -51,11 +59,18 @@ export class PrismaCheckInsRepository implements CheckInRepository{
     }
 
     async findById(CheckInId: string) {
+
+        const CheckInsRedis=await getRedis(`checkIn-${CheckInId}`);
+        
+        if(CheckInsRedis) return JSON.parse(CheckInsRedis);
+
         const checkIn=await prisma.checkIn.findUnique({
             where:{
                 id: CheckInId,
             }
         });
+
+        if(checkIn) await setRedis(`checkIn-${checkIn.id}`,JSON.stringify(checkIn));
 
         return checkIn;
     }

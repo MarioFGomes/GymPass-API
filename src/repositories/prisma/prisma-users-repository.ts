@@ -15,11 +15,19 @@ export class PrismaUsersRepository implements UsersRepository{
 
     async findByEmail(email:string){
 
+        const userRedis=await getRedis(`user-${email}`);
+        
+        if(userRedis){
+            return JSON.parse(userRedis);
+        }
+
         const user=await prisma.user.findUnique({
             where:{
                 email
             }
         });
+
+        if(user) await setRedis(`user-${user.email}`,JSON.stringify(user));
 
         return user;
     }
