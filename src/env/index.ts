@@ -6,7 +6,8 @@ const envSchema=z.object({
     PORT:z.coerce.number().default(3333),
     REDIS_CONNECTION_NAME:z.string().default('GymPass'),
     REDIS_PORT:z.coerce.number().default(6379),
-    REDIS_PASSWORD:z.string().default('1qaz2wsx')
+    REDIS_PASSWORD:z.string().default('1qaz2wsx'),
+    JWT_SECRET:z.string()
 });
 
 const _env=envSchema.safeParse(process.env);
