@@ -1,35 +1,25 @@
 import { CheckInRepository } from '../check-ins-repository';
 import { prisma } from '@/lib/prisma';
-import {Prisma} from '@prisma/client';
+import {Prisma,CheckIn} from '@prisma/client';
 import dayjs from 'dayjs';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-class PrismaCheckInsRepository implements CheckInRepository{
-    
+export class PrismaCheckInsRepository implements CheckInRepository{
 
     async findByUserIdOnDate(userId: string, date: Date) {
         const startOfTheDay=dayjs(date).startOf('date');
         const endOfTheDay=dayjs(date).endOf('date');
 
-        const UserCheckIn=await prisma.checkIn.findMany({
+        const CheckIn=await prisma.checkIn.findFirst({
             where:{
-                user_id:userId
+                user_id:userId,
+                created_at:{
+                    gte:startOfTheDay.toDate(),
+                    lte:endOfTheDay.toDate()
+                }
             }
 
         });
-        if(!UserCheckIn){
-            return null;
-        }else{
-            const CheckInOnSameDate=UserCheckIn.find((checkIn) => {
-                const checkInDate=dayjs(checkIn.created_at);
-                const isOnSameDate=checkInDate.isAfter(startOfTheDay) && checkInDate.isBefore(endOfTheDay);
-                return isOnSameDate;
-            });
-
-            if(!CheckInOnSameDate) return null;
-            return CheckInOnSameDate;
-        }
-
+        return CheckIn;
     }
     async create(data: Prisma.CheckInUncheckedCreateInput) {
         const CheckIn=await prisma.checkIn.create({
@@ -43,22 +33,39 @@ class PrismaCheckInsRepository implements CheckInRepository{
         const CheckIns=await prisma.checkIn.findMany({
             where:{
                 user_id: userId
-            }
+            },
+            take:20,
+            skip:(page-1)*20, 
         });
 
-        const CheckInsFilter=CheckIns.filter(checkIn => checkIn.user_id === userId)
-            .slice((page-1)*20, page*20);
-
-        return CheckInsFilter;
+        return CheckIns;
     }
 
     async countByUserId(userId: string) {
-        const CheckIns=await prisma.checkIn.findMany({
+        const count=await prisma.checkIn.count({
             where:{
                 user_id: userId
             }
         });
-        const CheckInsMetrics=CheckIns.filter(checkIn => checkIn.user_id === userId).length;
-        return CheckInsMetrics;
+        return count;
+    }
+
+    async findById(CheckInId: string) {
+        const checkIn=await prisma.checkIn.findUnique({
+            where:{
+                id: CheckInId,
+            }
+        });
+
+        return checkIn;
+    }
+    async save(checkIn:CheckIn)  {
+        const checkIns=await prisma.checkIn.update({
+            where: {
+                id:checkIn.id
+            },
+            data: checkIn
+        });
+        return checkIns;
     }
 }

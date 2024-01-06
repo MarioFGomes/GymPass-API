@@ -15,7 +15,7 @@ export class FindManyNearbyGymUseCase{
 
     async execute({UserLatitude, UserLongitude}:FindManyNearbyGymUseCaseRequest):Promise<FindManyNearbyGymResponseUseCase>{
 
-        const gyms=await this.gymRepository.FindManyNearBy({Latitude:UserLatitude,Longitude:UserLongitude});
+        const gyms=await this.gymRepository.FindManyNearBy({latitude:UserLatitude,longitude:UserLongitude});
 
         return {
             gyms 

@@ -1,6 +1,6 @@
 import { expect,describe,it, beforeEach,afterEach,vi } from 'vitest';
 import { InMemoryCheckInsRepository } from '@/repositories/in-memory/in-memory-check-ins-repository';
-import { CheckinUseCase } from './check-in';
+import { CheckInUseCase } from './check-in';
 import { InMemoryGymRepository } from '@/repositories/in-memory/in-memory-gym-repository';
 import { MaxDistanceError } from '../../errors/max-distance-error';
 import { MaxNumberOfCheckInsError } from '../../errors/max-number-of-check-ins-error';
@@ -8,14 +8,14 @@ import { MaxNumberOfCheckInsError } from '../../errors/max-number-of-check-ins-e
 
 
 let CheckInsRepository:InMemoryCheckInsRepository;
-let sut:CheckinUseCase;
+let sut:CheckInUseCase;
 let gymRepository:InMemoryGymRepository;
 describe('Check-in Use Case', () => {
 
     beforeEach(() => {
         CheckInsRepository=new InMemoryCheckInsRepository();
         gymRepository=new InMemoryGymRepository();
-        sut = new CheckinUseCase(CheckInsRepository,gymRepository);
+        sut = new CheckInUseCase(CheckInsRepository,gymRepository);
         vi.useFakeTimers();
     });
     afterEach(() => {
