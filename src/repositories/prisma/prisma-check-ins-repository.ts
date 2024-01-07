@@ -1,4 +1,4 @@
-import { getRedis, setRedis } from '@/config/RedisConfig';
+import { getRedis, setRedis } from '@/config/Redis';
 import { CheckInRepository } from '../check-ins-repository';
 import { prisma } from '@/lib/prisma';
 import {Prisma,CheckIn} from '@prisma/client';
@@ -17,7 +17,8 @@ export class PrismaCheckInsRepository implements CheckInRepository{
                     gte:startOfTheDay.toDate(),
                     lte:endOfTheDay.toDate()
                 }
-            }
+            },
+            orderBy: { created_at: 'asc'},
 
         });
         return CheckIn;
@@ -42,6 +43,7 @@ export class PrismaCheckInsRepository implements CheckInRepository{
             },
             take:20,
             skip:(page-1)*20, 
+            orderBy: { created_at: 'asc'},
         });
 
         if(CheckIns) await setRedis(`UserCheckIn-${userId}/page-${page}`,JSON.stringify(CheckIns));

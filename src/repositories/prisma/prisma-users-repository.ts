@@ -1,9 +1,10 @@
 import {prisma} from '@/lib/prisma';
-import { Prisma } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 import { UsersRepository } from '../users-repository';
-import { getRedis, setRedis } from '@/config/RedisConfig';
+import { getRedis, setRedis } from '@/config/Redis';
 
 export class PrismaUsersRepository implements UsersRepository{
+    
 
     async create(data:Prisma.UserCreateInput){
         const user=await prisma.user.create({
@@ -48,6 +49,16 @@ export class PrismaUsersRepository implements UsersRepository{
 
         if(user) await setRedis(`user-${user.id}`,JSON.stringify(user));
 
+        return user;
+    }
+
+    async save(Id:string,data:User){
+        const user=await prisma.user.update({
+            where: {
+                id:Id
+            },
+            data
+        });
         return user;
     }
 }

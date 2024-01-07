@@ -14,6 +14,7 @@ model User {
   id            String    @id @default(uuid())
   name          String
   email         String    @unique
+  avatarUrl     String?
   password_hash String
   created_at    DateTime  @default(now())
   CheckIns      CheckIn[]
@@ -38,9 +39,24 @@ model Gym {
   name        String
   description String?
   phone       String?
+  avatarUrl   String?
   latitude    Decimal
   longitude   Decimal
   CheckIns    CheckIn[]
+  Fotos       Foto[]
 
   @@map("gyms")
+}
+
+model Foto {
+  id           String   @id @default(uuid())
+  originalname String
+  filename     String
+  url          String
+  Description  String
+  created_at   DateTime @default(now())
+  Gym          Gym?     @relation(fields: [gymId], references: [id])
+  gymId        String?
+
+  @@map("fotos")
 }

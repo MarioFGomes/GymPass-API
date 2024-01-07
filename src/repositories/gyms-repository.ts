@@ -10,4 +10,5 @@ export interface GymRepository{
     FindManyNearBy(params:FindManyNearbyParams):Promise<Gym[]>
     SearchMany(query:string, page:number):Promise<Gym[]>
     create(gym:Prisma.GymCreateInput):Promise<Gym>
+    save(Id:string,data:Gym):Promise<Gym>
 }

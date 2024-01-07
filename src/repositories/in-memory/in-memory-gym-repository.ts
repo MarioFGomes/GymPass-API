@@ -4,7 +4,7 @@ import { randomUUID } from 'node:crypto';
 import { getDistanceBetweenCoordinate } from '@/utils/get-distance-between-coordinate';
 
 export class InMemoryGymRepository implements GymRepository{
-    
+
     public items: Gym[] = [];
     async findById(Id: string){
         const gym=this.items.find(item => item.id === Id);
@@ -20,6 +20,7 @@ export class InMemoryGymRepository implements GymRepository{
             name:data.name,
             description:data.description ?? null,
             phone:data.phone?? null,
+            avatarUrl:data.avatarUrl?? null,
             latitude:new Prisma.Decimal(data.latitude.toString()),
             longitude:new Prisma.Decimal(data.longitude.toString()),
             created_at:new Date(),
@@ -45,6 +46,14 @@ export class InMemoryGymRepository implements GymRepository{
 
             return distance<10;
         }); 
+    }
+
+    async save(Id: string, data: Gym) {
+        const GymIndex=this.items.findIndex(gym => gym.id === Id);
+        if(GymIndex>= 0){
+            this.items[GymIndex]=data;
+        }
+        return data;
     }
 
 

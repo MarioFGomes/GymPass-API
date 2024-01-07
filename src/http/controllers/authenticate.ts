@@ -17,7 +17,10 @@ export async function authenticate (request:FastifyRequest, reply:FastifyReply) 
         const {user}=await authenticateUseCase.execute({email,password});
         
         const token=await reply.jwtSign(
-            {},
+            {
+                name:user.name,
+                avatarUrl:user.avatarUrl 
+            },
             {
                 sign:{
                     sub: user.id,

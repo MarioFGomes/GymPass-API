@@ -3,7 +3,7 @@ import { UsersRepository } from '../users-repository';
 import { randomUUID } from 'node:crypto';
 
 export class InMemoryUsersRepository implements UsersRepository{
- 
+
     public items: User[] = [];
 
     async create(data: Prisma.UserCreateInput) {
@@ -11,6 +11,7 @@ export class InMemoryUsersRepository implements UsersRepository{
             id:randomUUID(),
             name:data.name,
             email:data.email,
+            avatarUrl:data.avatarUrl?? null,
             password_hash:data.password_hash,
             created_at:new Date(),
         };
@@ -33,6 +34,14 @@ export class InMemoryUsersRepository implements UsersRepository{
             return null;
         }
         return user;
+    }
+
+    async save(Id: string, data:User ) {
+        const UserIndex = this.items.findIndex(user => user.id ===data.id);
+        if(UserIndex >= 0){
+            return this.items[UserIndex]=data;
+        }
+        return data;
     }
 
 }
