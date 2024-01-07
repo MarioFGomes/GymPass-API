@@ -6,16 +6,16 @@ import { pipeline } from 'node:stream';
 import { extname, resolve } from 'path';
 import { createWriteStream } from 'node:fs';
 import { UploadValidate } from '@/middlewares/upload';
-import { makeUserUploadAvatarUseCase } from '@/UseCases/factories/make-user-upload-avatar-use-case';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { makeGymUploadAvatarUseCase } from '@/UseCases/factories/make-gym-upload-avatar-use-case';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const pump = promisify(pipeline);
 
-export async function UserUploadAvatar (request:FastifyRequest, reply:FastifyReply) {
+export async function GymUploadAvatar (request:FastifyRequest, reply:FastifyReply) {
     
     try{
 
@@ -40,9 +40,9 @@ export async function UserUploadAvatar (request:FastifyRequest, reply:FastifyRep
         const fullUrl = request.protocol.concat('://').concat(request.hostname);
         const fileUrl = new URL(`/uploads/images/${fileName}`, fullUrl);
             
-        const userUploadAvatarUseCase=makeUserUploadAvatarUseCase();
-        await userUploadAvatarUseCase.execute({
-            user_id:id,
+        const gymUploadAvatarUseCase=makeGymUploadAvatarUseCase();
+        await gymUploadAvatarUseCase.execute({
+            gym_id:id,
             avatarUrl:fileUrl.href
         });
 

@@ -14,6 +14,8 @@ GymPass style app.
 - [x] Deve ser possível o usuário realizar check-in em uma academia;
 - [x] Deve ser possível validar o check-in de um usuário;
 - [x] Deve ser possível cadastrar uma academia
+- [x] Como usuario deve ser possível ter uma foto de perfil
+- [ ] Deve ser possível o Gym ter um Logo
 
 ## RNs (Regras de negócio)
 
@@ -23,6 +25,8 @@ GymPass style app.
 - [] O check-in só pode ser validado até 20 minutos após criado;
 - [] O check-in só pode ser validado por administradores;
 - [] A academia só pode ser cadastrada por administradores;
+- [x] A Foto de perfil deve ser no maximo de 5mb
+- [ ] O usuario deve estar logado para adicionar uma foto de perfil
 
 ## RNFs (Requisitos não-funcionais)
 

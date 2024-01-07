@@ -43,20 +43,6 @@ model Gym {
   latitude    Decimal
   longitude   Decimal
   CheckIns    CheckIn[]
-  Fotos       Foto[]
 
   @@map("gyms")
-}
-
-model Foto {
-  id           String   @id @default(uuid())
-  originalname String
-  filename     String
-  url          String
-  Description  String
-  created_at   DateTime @default(now())
-  Gym          Gym?     @relation(fields: [gymId], references: [id])
-  gymId        String?
-
-  @@map("fotos")
 }

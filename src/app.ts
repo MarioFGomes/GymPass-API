@@ -6,7 +6,13 @@ import { env } from './env';
 import cors from '@fastify/cors';
 import multipart from '@fastify/multipart';
 import fastifyStatic from '@fastify/static';
-import { resolve } from 'node:path';
+import { resolve} from 'node:path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export const app = fastify();
 
@@ -19,7 +25,7 @@ app.register(cors, {
 });
 
 app.register(fastifyStatic, {
-    root: resolve('C:\\Users\\hp\\OneDrive\\cursos\\Documents\\Dev Estudos\\Rocketseat\\Ignite NodeJS\\Nova Trilha\\03-api-solid\\uploads'),
+    root: resolve(__dirname,'../uploads'),
     prefix: '/uploads',
 });
 
