@@ -11,8 +11,9 @@
     "lint": "eslint src --ext .ts --fix",
     "build": "tsup src --format esm --out-dir build",
     "start": "node build/server.js",
-    "test": "vitest run",
-    "test:watch": "vitest",
+    "test:e2e":"vitest run --dir src/http/test",
+    "test": "vitest run --dir src/UseCases",
+    "test:watch": "vitest run --dir src/UseCases",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui"
   },

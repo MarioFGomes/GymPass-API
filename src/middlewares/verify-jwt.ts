@@ -1,6 +1,7 @@
-import { FastifyRequest, FastifyReply } from 'fastify';
+import { InvalidCredentialsError } from '@/UseCases/errors/invalid-credentials-error';
+import { FastifyRequest} from 'fastify';
 
-export async function verifyJwt(request:FastifyRequest, reply:FastifyReply){
+export async function verifyJwt(request:FastifyRequest){
     
     try{
         await request.jwtVerify();
@@ -8,6 +9,7 @@ export async function verifyJwt(request:FastifyRequest, reply:FastifyReply){
     }
     catch(error)
     {
-        return reply.status(401).send({message: 'Unauthorized'});
+        //return reply.status(401).send({message: 'Unauthorized'});
+        throw new InvalidCredentialsError();
     }
 }
