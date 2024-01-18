@@ -15,7 +15,7 @@ function getnarateDatabaseURL(schema:string){
     url.searchParams.set('schema',schema);
     return url.toString();
 }
-
+// ts-prune-ignore-next
 export default <Environment>{
     name:'prisma',
     transformMode: 'ssr',

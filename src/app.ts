@@ -10,6 +10,7 @@ import { resolve} from 'node:path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { gymRoutes } from './http/controllers/gym/routes';
+import { checkInsRoutes } from './http/controllers/check-ins/routes';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -33,6 +34,8 @@ app.register(fastifyStatic, {
 app.register(multipart);
 app.register(userRoutes);
 app.register(gymRoutes);
+app.register(checkInsRoutes);
+
 app.setErrorHandler((error,_,reply)=>{
     if(error instanceof ZodError){
         return reply.status(400).send({message: 'Validation error',issues:error.format()});
