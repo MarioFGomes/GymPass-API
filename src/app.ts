@@ -1,6 +1,6 @@
 import fastify from 'fastify';
 import fastifyJwt from '@fastify/jwt';
-import { appRoutes } from './http/routes';
+import {userRoutes } from './http/controllers/users/routes';
 import { ZodError } from 'zod';
 import { env } from './env';
 import cors from '@fastify/cors';
@@ -9,6 +9,7 @@ import fastifyStatic from '@fastify/static';
 import { resolve} from 'node:path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { gymRoutes } from './http/controllers/gym/routes';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -30,7 +31,8 @@ app.register(fastifyStatic, {
 });
 
 app.register(multipart);
-app.register(appRoutes);
+app.register(userRoutes);
+app.register(gymRoutes);
 app.setErrorHandler((error,_,reply)=>{
     if(error instanceof ZodError){
         return reply.status(400).send({message: 'Validation error',issues:error.format()});

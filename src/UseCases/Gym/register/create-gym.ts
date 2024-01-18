@@ -3,9 +3,9 @@ import { GymRepository } from '@/repositories/gyms-repository';
 
 interface CreateGymUseCaseRequest{
     name:        string,
-    description: string,
-    phone:       string,
-    avatarUrl?:  string,
+    description: string | null,
+    phone?:       string | null,
+    avatarUrl?:  string | null,
     latitude:    number,
     longitude:   number
 }
