@@ -9,6 +9,7 @@ export async function refresh (request:FastifyRequest, reply:FastifyReply)
     const token=await reply.jwtSign(
         {
             name:request.user.name,
+            role:request.user.role,
             avatarUrl:request.user.avatarUrl 
         },
         {

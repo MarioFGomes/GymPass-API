@@ -19,6 +19,7 @@ export async function authenticate (request:FastifyRequest, reply:FastifyReply) 
         const token=await reply.jwtSign(
             {
                 name:user.name,
+                role:user.role,
                 avatarUrl:user.avatarUrl 
             },
             {
@@ -30,6 +31,7 @@ export async function authenticate (request:FastifyRequest, reply:FastifyReply) 
         const refreshToken=await reply.jwtSign(
             {
                 name:user.name,
+                role:user.role,
                 avatarUrl:user.avatarUrl 
             },
             {
