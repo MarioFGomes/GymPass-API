@@ -3,7 +3,7 @@ version: "3"
 services:
   GymPass-pg:
     image: bitnami/postgresql
-    container_name: Database_GymPass
+    container_name: postgres_GymPass
     restart: always
     ports:
       - 5432:5432
@@ -17,7 +17,7 @@ services:
 
   GymPass-redis:
     image: bitnami/redis
-    container_name: GymPass-redis
+    container_name: redis_GymPass
     restart: always
     ports:
       - 6379:6379
