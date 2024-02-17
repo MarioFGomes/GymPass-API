@@ -4,6 +4,7 @@ import {userRoutes } from './http/controllers/users/routes';
 import { ZodError } from 'zod';
 import { env } from './env';
 import cors from '@fastify/cors';
+import fastifyCookie from '@fastify/cookie';
 import multipart from '@fastify/multipart';
 import fastifyStatic from '@fastify/static';
 import { resolve} from 'node:path';
@@ -20,8 +21,16 @@ export const app = fastify();
 
 app.register(fastifyJwt,{
     secret:env.JWT_SECRET,
+    cookie:{
+        cookieName:'refreshToken',
+        signed:false,
+    },
+    sign:{
+        expiresIn:'10m'
+    }
     
 });
+app.register(fastifyCookie);
 app.register(cors, {
     origin: true, // all URLs are allowed. other example - origin: ['http://localhost:3000']
 });

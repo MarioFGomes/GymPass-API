@@ -6,7 +6,6 @@ export async function create (request:FastifyRequest, reply:FastifyReply) {
         name:z.string(),
         description:z.string().nullable(),
         phone:z.string().nullable(),
-        avatarUrl:z.string().nullable(),
         latitude:z.number().refine((value)=>{
             return Math.abs(value)<=90;
         }),
@@ -16,7 +15,7 @@ export async function create (request:FastifyRequest, reply:FastifyReply) {
     });
 
 
-    const {name,description,phone,avatarUrl,latitude,longitude}=createBodySchema.parse(request.body);
+    const {name,description,phone,latitude,longitude}=createBodySchema.parse(request.body);
 
     const createUseCase=makeCreateGymUseCase();
     await createUseCase.execute(
@@ -24,7 +23,6 @@ export async function create (request:FastifyRequest, reply:FastifyReply) {
             name, 
             description, 
             phone,
-            avatarUrl,
             latitude,
             longitude
         });

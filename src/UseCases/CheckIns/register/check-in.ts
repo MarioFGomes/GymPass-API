@@ -41,7 +41,9 @@ export class CheckInUseCase{
 
         const CheckIn= await this.checkInRepository.create({
             user_id: userId,
-            gym_id: gymId
+            gym_id: gymId,
+            
+
         });
 
         return {CheckIn};

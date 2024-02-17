@@ -42,6 +42,7 @@
     "vitest": "1.1.0"
   },
   "dependencies": {
+    "@fastify/cookie": "9.3.1",
     "@fastify/cors": "8.5.0",
     "@fastify/jwt": "7.2.4",
     "@fastify/multipart": "8.1.0",

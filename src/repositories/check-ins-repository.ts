@@ -1,4 +1,4 @@
-import { CheckIn, Prisma } from '@prisma/client';
+import { CheckIn,Prisma } from '@prisma/client';
 
 
 export interface CheckInRepository{
